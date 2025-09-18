@@ -1,263 +1,242 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Armory Command — Field Production (Game)</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fortress Forge — Armaments Command (Game)</title>
 <style>
-/* ===========================
-   Armory Command — style (military green)
-   =========================== */
-:root{
-  --bg:#07140b;
-  --panel:#0f2918;
-  --muted:#9bb58f;
-  --accent:#7fb06a;
-  --accent-deep:#3f6b44;
-  --danger:#c65252;
-  --glass: rgba(255,255,255,0.03);
-  --mono: 'Courier New', monospace;
-  --rounded:12px;
-}
+  /* Fortress Forge — military-green UI */
+  :root{
+    --bg:#07140b;
+    --panel:#0f2918;
+    --muted:#9db78f;
+    --accent:#88c07b;
+    --accent-2:#3f6b44;
+    --glass: rgba(255,255,255,0.03);
+    --danger:#c84f4f;
+    --mono: 'Courier New', monospace;
+    --rounded:12px;
+  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#041105);color:#eaf6ea;}
+  a{color:var(--accent);}
+  .app{padding:18px;display:flex;flex-direction:column;gap:14px;min-height:100vh;}
 
-*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
-html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#041105);color:#eaf6ea;}
-.app{padding:18px;display:flex;flex-direction:column;gap:14px;min-height:100vh;}
+  /* header */
+  .header{display:flex;justify-content:space-between;align-items:center;}
+  .brand{display:flex;gap:12px;align-items:center;}
+  .logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(80,110,80,0.12));display:flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--mono);color:var(--muted);font-size:20px;border:1px solid rgba(255,255,255,0.03);}
+  .title{font-weight:900;font-size:20px;}
+  .subtitle{font-size:12px;color:var(--muted);}
 
-/* header */
-.header{display:flex;justify-content:space-between;align-items:center;}
-.brand{display:flex;gap:12px;align-items:center;}
-.logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(80,110,80,0.12));display:flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--mono);color:var(--muted);font-size:22px;border:1px solid rgba(255,255,255,0.03);}
-.title{font-size:20px;font-weight:900;}
-.tagline{font-size:12px;color:var(--muted);}
+  /* layout */
+  .layout{display:flex;gap:16px;align-items:flex-start;}
+  .left{width:340px;background:var(--panel);padding:14px;border-radius:var(--rounded);border:1px solid var(--glass);box-shadow:0 12px 36px rgba(0,0,0,0.6);}
+  .center{flex:1;background:linear-gradient(180deg, rgba(18,40,20,0.06), rgba(12,28,12,0.02));padding:16px;border-radius:var(--rounded);border:1px solid rgba(255,255,255,0.02);min-height:720px;}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .tab{background:var(--glass);padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:14px;border:1px solid rgba(255,255,255,0.02);}
+  .tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:white;box-shadow:0 10px 28px rgba(0,0,0,0.6);}
 
-/* layout */
-.container{display:flex;gap:16px;align-items:flex-start;}
-.left{width:360px;background:var(--panel);padding:14px;border-radius:var(--rounded);border:1px solid var(--glass);box-shadow:0 12px 36px rgba(0,0,0,0.6);}
-.main{flex:1;background:linear-gradient(180deg, rgba(18,40,20,0.06), rgba(12,28,12,0.02));padding:16px;border-radius:var(--rounded);border:1px solid rgba(255,255,255,0.02);min-height:720px;}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-.tab{background:var(--glass);padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:14px;border:1px solid rgba(255,255,255,0.02);}
-.tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-deep));color:white;box-shadow:0 10px 28px rgba(0,0,0,0.6);}
+  /* cards */
+  .card{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);margin-bottom:12px;}
+  .small{font-size:12px;color:var(--muted);}
 
-/* panels & cards */
-.panel{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);margin-bottom:12px;}
-.card{padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02);}
+  /* resources */
+  .resource{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:8px;}
+  .res-left{display:flex;gap:12px;align-items:center;}
+  .badge{width:48px;height:48px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;color:var(--muted);}
+  .res-name{font-weight:800;}
+  .res-qty{font-family:var(--mono);font-weight:900;font-size:20px;color:#eaf6ea;}
 
-/* resource & stat rows */
-.res-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:8px;}
-.res-left{display:flex;gap:12px;align-items:center;}
-.badge{width:52px;height:52px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;color:var(--muted);}
-.res-name{font-weight:800;}
-.res-qty{font-family:var(--mono);font-weight:900;font-size:20px;color:#eaf6ea;}
+  /* progress & animations */
+  .progress-wrap{background:rgba(255,255,255,0.02);border-radius:8px;overflow:hidden;height:18px;border:1px solid rgba(255,255,255,0.03);}
+  .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#bfeec1,#66c26d);transition:width 0.12s linear;}
+  .spark{box-shadow:0 8px 28px rgba(70,140,80,0.08);}
 
-/* big money */
-.big-money{font-family:var(--mono);font-weight:900;font-size:34px;color:var(--accent);text-shadow:0 8px 20px rgba(0,0,0,0.5);}
+  /* buttons */
+  .btn{background:var(--accent);border:none;padding:10px 12px;border-radius:10px;color:white;cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;box-shadow:0 8px 18px rgba(0,0,0,0.45);}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.6);}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);}
 
-/* buttons */
-.btn{background:var(--accent);border:none;padding:10px 12px;border-radius:10px;color:white;cursor:pointer;transition:transform 0.12s, box-shadow 0.12s;box-shadow:0 8px 20px rgba(0,0,0,0.5);}
-.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.6);}
-.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);}
+  /* grid */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
 
-/* progress bars & animation */
-.progress-wrap{background:rgba(255,255,255,0.02);border-radius:8px;overflow:hidden;height:18px;border:1px solid rgba(255,255,255,0.03);}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#c8f0c4,#6fc16a);transition:width 0.2s linear;}
-.progress-bar.spark{animation:glow 1.6s infinite linear;}
-@keyframes glow{0%{filter:brightness(0.98)}50%{filter:brightness(1.06)}100%{filter:brightness(0.98)}}
+  /* side quick */
+  .corner{position:fixed;right:12px;top:120px;display:flex;flex-direction:column;gap:8px;z-index:99;}
+  .mini{width:44px;height:44px;border-radius:8px;background:var(--panel);border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.5);}
 
-/* market & lists */
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.listing{padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02);}
+  /* log */
+  #log{max-height:220px;overflow:auto;padding:8px;border-radius:8px;background:rgba(0,0,0,0.04);border:1px solid rgba(255,255,255,0.02);line-height:1.6;}
+  #log>div{padding:6px;border-radius:6px;background:rgba(0,0,0,0.04);margin-bottom:6px;}
 
-/* small text */
-.small{font-size:12px;color:var(--muted);}
-
-/* corner menu */
-.corner{position:fixed;right:12px;top:120px;display:flex;flex-direction:column;gap:8px;z-index:99;}
-.corner .mini{width:44px;height:44px;border-radius:8px;background:var(--panel);border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.5);}
-
-/* log */
-#log{max-height:220px;overflow:auto;padding:8px;border-radius:8px;background:rgba(0,0,0,0.04);border:1px solid rgba(255,255,255,0.02);line-height:1.7;}
-#log>div{padding:6px;border-radius:6px;background:rgba(0,0,0,0.05);margin-bottom:6px;}
+  /* responsive */
+  @media (max-width:980px){
+    .layout{flex-direction:column;}
+    .left{width:100%;}
+    .center{width:100%;}
+  }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" id="app">
+  <!-- Safety header -->
   <div class="header">
     <div class="brand">
-      <div class="logo">AC</div>
+      <div class="logo">FF</div>
       <div>
-        <div class="title">Armory Command</div>
-        <div class="tagline small">Military-themed production & commerce — game-only simulation</div>
+        <div class="title">Fortress Forge</div>
+        <div class="subtitle">Military-themed armament commerce — GAME ONLY (non-actionable)</div>
       </div>
     </div>
 
     <div style="text-align:right">
-      <div id="cash" class="big-money">$1,250</div>
-      <div id="stage" class="small">Solo Operator</div>
+      <div id="cash" style="font-family:var(--mono);font-weight:900;font-size:30px;color:var(--accent)">$1,250</div>
+      <div id="rank" class="small">Solo Operator</div>
     </div>
   </div>
 
-  <div class="container">
+  <div class="layout">
     <div class="left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-weight:900">Resources</div>
-        <div class="small">Scarcity matters</div>
+        <div style="font-weight:900">Supply</div>
+        <div class="small">Scarce & tactical</div>
       </div>
 
-      <div id="resources"></div>
+      <div id="supplyList"></div>
 
       <div class="card" style="margin-top:10px">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="font-weight:900">Quick Actions</div>
-          <div class="small">Early tools</div>
+          <div class="small">Shortcuts</div>
         </div>
         <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <button class="btn small" id="gather">Gather</button>
-          <button class="btn small" id="handMake">Craft (Manual)</button>
-          <button class="btn small secondary" id="sellExcess">Sell Raw</button>
+          <button class="btn small" id="scavengeBtn">Scavenge</button>
+          <button class="btn small" id="craftBtn">Craft Manual</button>
+          <button class="btn small secondary" id="sellRawBtn">Sell Raw</button>
         </div>
       </div>
 
       <div class="card" style="margin-top:10px">
         <div style="font-weight:900">Personnel</div>
-        <div class="small">Hire crew to accelerate production</div>
+        <div class="small">Hire crew to increase throughput</div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
           <div>
-            <div id="workerCount" style="font-weight:900">0</div>
+            <div id="workers" style="font-weight:900">0</div>
             <div class="small">Workers</div>
           </div>
           <div style="margin-left:auto">
-            <button class="btn small" id="hire">Hire</button>
+            <button class="btn small" id="hireBtn">Hire</button>
           </div>
         </div>
       </div>
 
       <div class="card" style="margin-top:10px">
-        <div style="font-weight:900">Recent Events</div>
+        <div style="font-weight:900">Events</div>
         <div id="log" style="margin-top:8px"></div>
       </div>
 
       <div style="display:flex;gap:8px;margin-top:8px">
         <button class="btn" id="saveBtn">Save</button>
-        <button class="btn secondary" id="importBtn">Import</button>
         <button class="btn secondary" id="exportBtn">Export</button>
+        <button class="btn secondary" id="importBtn">Import</button>
       </div>
     </div>
 
-    <div class="main">
+    <div class="center">
       <div class="tabs" id="tabs">
-        <div class="tab active" data-tab="dash">Dashboard</div>
+        <div class="tab active" data-tab="cmd">Command</div>
         <div class="tab" data-tab="prod">Production</div>
         <div class="tab" data-tab="market">Market</div>
         <div class="tab" data-tab="research">Research</div>
         <div class="tab" data-tab="logi">Logistics</div>
-        <div class="tab" data-tab="staff">Personnel</div>
-        <div class="tab" data-tab="upg">Upgrades</div>
+        <div class="tab" data-tab="upgrades">Upgrades</div>
         <div class="tab" data-tab="settings">Settings</div>
       </div>
 
       <div id="tabContent">
-        <!-- DASHBOARD -->
-        <div id="dash" class="tab-page">
-          <div class="panel">
+        <!-- Command -->
+        <div class="tab-page" id="cmd">
+          <div class="card">
             <div style="display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <div style="font-weight:900">Command Overview</div>
-                <div class="small">Your supply lines, production and market presence</div>
-              </div>
-              <div style="text-align:right">
-                <div id="prodCount" style="font-weight:900">0 active</div>
-                <div class="small">Active jobs</div>
-              </div>
+              <div style="font-weight:900">Command Overview</div>
+              <div class="small">Status & live operations</div>
             </div>
 
             <div style="margin-top:12px" class="grid-2">
-              <div class="card">
-                <div style="font-weight:900">Active Production</div>
-                <div id="activeList" style="margin-top:8px"></div>
+              <div>
+                <div style="font-weight:900">Active Jobs</div>
+                <div id="activeJobs" style="margin-top:8px"></div>
               </div>
-              <div class="card">
-                <div style="font-weight:900">Market Pulse</div>
-                <div id="pulse" class="small" style="margin-top:8px">Demand & price trends</div>
+              <div>
+                <div style="font-weight:900">Market Snapshot</div>
+                <div id="marketPulse" class="small" style="margin-top:8px"></div>
               </div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-top:12px">
-            <div class="card">
-              <div style="font-weight:900">Inventory & Listings</div>
-              <div class="small">Produced goods await your orders</div>
-              <div id="inventory" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px"></div>
-            </div>
-
-            <div class="card">
-              <div style="font-weight:900">Quick Produce</div>
-              <select id="quickSelect" class="small" style="width:100%;padding:8px;border-radius:8px;margin-top:8px"></select>
-              <div style="display:flex;gap:8px;margin-top:8px">
-                <input id="quickQty" type="number" value="1" min="1" style="width:100px;padding:8px;border-radius:8px;border:1px solid var(--glass)"/>
-                <button class="btn" id="quickStart">Start</button>
-              </div>
-            </div>
+          <div class="card">
+            <div style="font-weight:900">Inventory</div>
+            <div class="small">Finished items await listing, packaging or sale</div>
+            <div id="inventory" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px"></div>
           </div>
         </div>
 
-        <!-- PRODUCTION -->
-        <div id="prod" class="tab-page" style="display:none">
-          <div class="panel">
+        <!-- Production -->
+        <div class="tab-page" id="prod" style="display:none">
+          <div class="card">
             <div style="display:flex;justify-content:space-between;align-items:center">
-              <div style="font-weight:900">Fabrication Console</div>
-              <div class="small">Observe production progress bars; cancel jobs if needed</div>
+              <div style="font-weight:900">Fabrication</div>
+              <div class="small">Choose items, start jobs, watch progress</div>
             </div>
 
             <div style="margin-top:12px;display:grid;grid-template-columns:1fr 360px;gap:12px">
               <div>
-                <div style="font-weight:900">Manual Work & Jobs</div>
-                <div id="manualArea" style="margin-top:8px"></div>
+                <div style="font-weight:900">Manual Workbench</div>
+                <div id="workbench" style="margin-top:8px"></div>
 
-                <div style="margin-top:12px">
-                  <div style="font-weight:900">Factory Lines</div>
-                  <div id="factoryArea" style="margin-top:8px"></div>
-                </div>
+                <div style="margin-top:12px;font-weight:900">Factory Lines</div>
+                <div id="factories" style="margin-top:8px"></div>
               </div>
 
               <div>
                 <div style="font-weight:900">Production Queue</div>
                 <div id="queue" style="margin-top:8px"></div>
-                <div style="margin-top:8px;display:flex;gap:8px">
-                  <button class="btn" id="cancelAll">Cancel All</button>
-                  <button class="btn secondary" id="speedUp">Speed Up (Buy)</button>
+                <div style="margin-top:12px;display:flex;gap:8px">
+                  <button class="btn" id="cancelAllBtn">Cancel All</button>
+                  <button class="btn secondary" id="speedBuyBtn">Speed Order (Buy)</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- MARKET -->
-        <div id="market" class="tab-page" style="display:none">
-          <div class="panel">
+        <!-- Market -->
+        <div class="tab-page" id="market" style="display:none">
+          <div class="card">
             <div style="display:flex;justify-content:space-between;align-items:center">
-              <div style="font-weight:900">Market & Orders</div>
-              <div class="small">Set price tiers; low = fast, high = slow</div>
+              <div style="font-weight:900">Marketplace</div>
+              <div class="small">Set price tiers — low sells fast, high sells slow</div>
             </div>
 
             <div style="margin-top:12px" id="marketArea" class="grid-2"></div>
           </div>
         </div>
 
-        <!-- RESEARCH -->
-        <div id="research" class="tab-page" style="display:none">
-          <div class="panel">
-            <div style="font-weight:900">Research & Doctrine</div>
-            <div class="small">Unlock equipment, calibers and production methods</div>
+        <!-- Research -->
+        <div class="tab-page" id="research" style="display:none">
+          <div class="card">
+            <div style="font-weight:900">Research Tree</div>
+            <div class="small">Gain research by crafting; unlock tech</div>
             <div id="researchArea" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px"></div>
           </div>
         </div>
 
-        <!-- LOGISTICS -->
-        <div id="logi" class="tab-page" style="display:none">
-          <div class="panel">
+        <!-- Logistics -->
+        <div class="tab-page" id="logi" style="display:none">
+          <div class="card">
             <div style="font-weight:900">Logistics & Packaging</div>
-            <div class="small">Pack goods into crates to increase price and ease bulk sale</div>
+            <div class="small">Crates increase price & enable bulk sale</div>
             <div style="margin-top:12px;display:flex;gap:8px">
               <select id="packSelect" style="flex:1;padding:8px;border-radius:8px"></select>
               <button class="btn" id="packBtn">Package x10</button>
@@ -265,33 +244,28 @@ html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0411
           </div>
         </div>
 
-        <!-- PERSONNEL -->
-        <div id="staff" class="tab-page" style="display:none">
-          <div class="panel">
-            <div style="font-weight:900">Staff & Command</div>
-            <div class="small">Hire managers, technicians, and operators</div>
-            <div id="staffArea" style="margin-top:12px"></div>
+        <!-- Upgrades -->
+        <div class="tab-page" id="upgrades" style="display:none">
+          <div class="card">
+            <div style="font-weight:900">Equipment & Upgrades</div>
+            <div class="small">Improve speed, value, or unlock machinery</div>
+            <div id="upgList" style="margin-top:12px"></div>
           </div>
         </div>
 
-        <!-- UPGRADES -->
-        <div id="upg" class="tab-page" style="display:none">
-          <div class="panel">
-            <div style="font-weight:900">Upgrades & Equipment</div>
-            <div class="small">Buy gear to boost speed, quality, or market appeal</div>
-            <div id="upgArea" style="margin-top:12px"></div>
-          </div>
-        </div>
-
-        <!-- SETTINGS -->
-        <div id="settings" class="tab-page" style="display:none">
-          <div class="panel">
+        <!-- Settings -->
+        <div class="tab-page" id="settings" style="display:none">
+          <div class="card">
             <div style="font-weight:900">Settings</div>
-            <div class="small">Tweak message retention, difficulty, and theme</div>
+            <div class="small">Adjust UI & difficulty</div>
             <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-              <label class="small">Messages <select id="msgRet" style="margin-left:8px"><option value="0">None</option><option value="1">Major</option><option value="2" selected>All</option></select></label>
-              <label class="small">Difficulty <select id="diff" style="margin-left:8px"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select></label>
-              <button class="btn secondary" id="resetGame">Give Up (Reset)</button>
+              <label class="small">Messages
+                <select id="msgRet" style="margin-left:8px"><option value="0">None</option><option value="1">Major</option><option value="2" selected>All</option></select>
+              </label>
+              <label class="small">Difficulty
+                <select id="diff" style="margin-left:8px"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select>
+              </label>
+              <button class="btn secondary" id="resetBtn">Give Up / Reset</button>
             </div>
           </div>
         </div>
@@ -301,632 +275,593 @@ html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0411
   </div>
 
   <div class="corner">
-    <div class="mini" id="quickTips" title="Tips">?</div>
+    <div class="mini" id="tips" title="Tips">?</div>
     <div class="mini" id="ach" title="Achievements">★</div>
   </div>
 </div>
 
 <script>
 /*
-  Armory Command — Single-file game
-  Author: Assistant-design
-  Safety: This is a game. No real-world instructions or actionable manufacturing details are provided.
+  Fortress Forge — single-file game
+  Design: Assistant (fully own design)
+  Safety: game-only. No instructions for real weapons or ammunition.
 */
 
-/* --------------------------
-   Utilities
-   -------------------------- */
-const uid = (p='id') => p + '_' + Math.random().toString(36).slice(2,9);
-const fmt = n => {
-  if (n < 1000) return '$' + Math.floor(n);
-  if (n < 1e6) return '$' + (n/1000).toFixed(1) + 'k';
-  return '$' + (n/1e6).toFixed(2) + 'M';
-};
-const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
-const rand = (a,b) => Math.floor(a + Math.random()*(b-a+1));
-const choose = arr => arr[Math.floor(Math.random()*arr.length)];
-
-/* --------------------------
-   Core game data
-   -------------------------- */
-const Game = {
-  money:1250,
-  resources: {},
-  resourceDefs: [
-    {id:'metal', name:'Metal', icon:'M', base:8},
-    {id:'prop_L', name:'Propellant L', icon:'L', base:3},
-    {id:'prop_M', name:'Propellant M', icon:'M', base:7},
-    {id:'prop_H', name:'Propellant H', icon:'H', base:16}
-  ],
-  catalog: [], // product definitions
-  inventory: {}, // itemId -> qty
-  production: [], // active jobs
-  market: [], // listings {id,item,qty,priceTier,price}
-  factories: [], // purchasable lines
-  staff: { workers:0, techs:0 },
-  upgrades: {},
-  research: {},
-  settings: {msgRetention:2, difficulty:'normal', animations:true},
-  stats: { produced:0, sold:0 },
-  lastTick: Date.now()
-};
-
-/* initialize resource counts */
-Game.resourceDefs.forEach(r => Game.resources[r.id] = rand(6,24));
-
-/* --------------------------
-   Product catalog (game-only)
-   Each product: id, label, type: 'weapon'|'ammo', costResources{...}, baseTime(s), baseValue
-   -------------------------- */
-function reg(prod){ Game.catalog.push(prod); }
-reg({id:'p_9mm', label:'9mm Handgun', type:'weapon', costs:{metal:8, prop_L:4}, baseTime:14, baseValue:320});
-reg({id:'p_45', label:'.45 Handgun', type:'weapon', costs:{metal:12, prop_M:5}, baseTime:22, baseValue:480});
-reg({id:'p_556', label:'5.56 Rifle', type:'weapon', costs:{metal:28, prop_M:12}, baseTime:48, baseValue:1200});
-reg({id:'p_308', label:'.308 Precision', type:'weapon', costs:{metal:44, prop_H:18}, baseTime:110, baseValue:5200});
-reg({id:'a_9mm', label:'9mm Batch', type:'ammo', costs:{metal:1, prop_L:6}, baseTime:8, baseValue:56, per:50});
-reg({id:'a_45', label:'.45 Batch', type:'ammo', costs:{metal:1, prop_M:7}, baseTime:12, baseValue:74, per:40});
-reg({id:'a_308', label:'.308 Pack', type:'ammo', costs:{metal:2, prop_H:10}, baseTime:18, baseValue:200, per:30});
-
-/* --------------------------
-   Factories & equipment (unlockable / buyable)
-   -------------------------- */
-Game.factories = [
-  {id:'f_bench', name:'Bench Line', type:'general', cost:1000, speed:1.2, enabled:true},
-  {id:'f_ammo', name:'Ammo Loader', type:'ammo', cost:2400, speed:1.8, enabled:false},
-  {id:'f_rifle', name:'Rifle Mill', type:'weapon', cost:8400, speed:1.5, enabled:false}
-];
-
-const Equipment = [
-  {id:'eq_press', name:'Basic Press', cost:420, desc:'+10% production speed', effect:() => { Game.upgrades['eq_press'] = true; }},
-  {id:'eq_auto', name:'Auto Press', cost:2600, desc:'+45% production speed', unlock:false, effect:() => { Game.upgrades['eq_auto'] = true; }}
-];
-
-/* --------------------------
-   Market & price computation
-   - priceTier: low/med/high -> multiplier and sell rate
-   -------------------------- */
-function priceOf(prodId, tier='med'){
-  const p = Game.catalog.find(x=>x.id===prodId);
-  if (!p) return 0;
-  const mult = {low:0.78, med:1.0, high:1.66}[tier] || 1;
-  return Math.max(1, Math.floor(p.baseValue * mult));
-}
-
-/* --------------------------
-   Start production job
-   - checks resources, subtracts, creates job with time (affected by staff & equipment)
-   -------------------------- */
-function canAffordCosts(costObj, qty=1){
-  for (const k in costObj) if ((Game.resources[k]||0) < costObj[k]*qty) return false;
-  return true;
-}
-function chargeCosts(costObj, qty=1){
-  for (const k in costObj) Game.resources[k] = Math.max(0,(Game.resources[k]||0) - costObj[k]*qty);
-}
-
-function startJob(mode, productId, qty=1, label=null){
-  const prod = Game.catalog.find(p=>p.id===productId);
-  if (!prod) { push('Unknown product'); return false; }
-  if (!canAffordCosts(prod.costs||{}, qty)){ push('Insufficient resources'); return false; }
-  chargeCosts(prod.costs, qty);
-
-  // compute effective time: baseTime * qty / speedFactor
-  let baseTotal = (prod.baseTime || 8) * qty;
-  let speed = 1.0;
-  // staff effect
-  speed *= (1 + Math.min(Game.staff.workers, 80) * 0.018);
-  // equipment upgrades
-  if (Game.upgrades['eq_press']) speed *= 1.10;
-  if (Game.upgrades['eq_auto']) speed *= 1.45;
-  // factory help if mode === 'factory' and appropriate factory enabled
-  if (mode === 'factory'){
-    const fac = Game.factories.find(f => f.enabled && (f.type==='general' || f.type===prod.type));
-    if (fac) speed *= fac.speed;
-  }
-
-  const effective = Math.max(1, baseTotal / speed);
-  const job = {
-    id: uid('job'), productId, qty, remaining: effective, total: effective, mode, label: label || '', started: Date.now()
+(function(){
+  /* Utilities */
+  const uid = (p='id') => p + '_' + Math.random().toString(36).slice(2,9);
+  const fmtMoney = n => {
+    if (n < 1000) return '$' + Math.floor(n);
+    if (n < 1e6) return '$' + (n/1000).toFixed(1) + 'k';
+    return '$' + (n/1e6).toFixed(2) + 'M';
   };
-  Game.production.push(job);
-  push(`Job started: ${prod.label} x${qty} — ETA ${effective.toFixed(1)}s`);
-  return true;
-}
+  const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+  const rand = (a,b) => Math.floor(a + Math.random()*(b-a+1));
+  const choice = arr => arr[Math.floor(Math.random()*arr.length)];
 
-/* --------------------------
-   Market listing & selling
-   - Listings sell slowly depending on price tier & global demand
-   -------------------------- */
-function listItem(prodId, qty=1, tier='med'){
-  // remove from inventory
-  if ((Game.inventory[prodId]||0) < qty){ push('Not enough inventory'); return false; }
-  Game.inventory[prodId] -= qty;
-  const listing = { id: uid('list'), prodId, qty, tier, priceEach: priceOf(prodId, tier), created:Date.now() };
-  Game.market.push(listing);
-  push(`Listed ${prodLabel(prodId)} x${qty} @ ${tier} (${fmt(listing.priceEach)} each)`);
-  return true;
-}
+  /* Game state */
+  const Game = {
+    money:1250,
+    resources:{}, // counts
+    resourceDefs:[
+      {id:'metal', name:'Metal', icon:'M', base:8},
+      {id:'propL', name:'Propellant L', icon:'L', base:3},
+      {id:'propM', name:'Propellant M', icon:'M', base:7},
+      {id:'propH', name:'Propellant H', icon:'H', base:16}
+    ],
+    catalog:[], // items to craft
+    inventory:{}, // itemId -> qty
+    production:[], // jobs
+    market:[], // listings
+    factories:[], // factory lines
+    staff:{ workers:0 },
+    upgrades:{}, // purchased upgrades
+    research:{}, // research nodes state
+    settings:{ msgRetention:2, difficulty:'normal', animations:true },
+    stats:{ produced:0, sold:0, researchPoints:0 },
+    lastTick: Date.now()
+  };
 
-function marketTick(dt){
-  if (!Game.market.length) return;
-  // demand scaler (random + simple)
-  const demand = 0.06 * (1 + (Object.values(Game.research).length * 0.02));
-  const tierSell = {low:0.95, med:0.35, high:0.08};
-  for (let i = Game.market.length - 1; i >= 0; i--){
-    const L = Game.market[i];
-    const sp = clamp(demand * tierSell[L.tier] * (1 + Math.random()*0.6), 0, 1);
-    const p = 1 - Math.pow(1 - sp, dt);
-    if (Math.random() < p){
-      // sell one unit per tick event
-      L.qty -= 1;
-      Game.money += L.priceEach;
-      Game.stats.sold++;
-      push(`Market sold 1 ${prodLabel(L.prodId)} for ${fmt(L.priceEach)}`);
-      if (L.qty <= 0) Game.market.splice(i,1);
+  /* initialize resources */
+  Game.resourceDefs.forEach(r => Game.resources[r.id] = rand(6,22));
+
+  /* Catalog (abstract game items only) */
+  function addProd(p){ Game.catalog.push(p); }
+  addProd({id:'9mm', label:'9mm Handgun', type:'weapon', costs:{metal:8, propL:4}, baseTime:12, baseValue:320});
+  addProd({id:'45', label:'.45 Handgun', type:'weapon', costs:{metal:12, propM:5}, baseTime:20, baseValue:480});
+  addProd({id:'556', label:'5.56 Rifle', type:'weapon', costs:{metal:28, propM:12}, baseTime:48, baseValue:1200});
+  addProd({id:'308', label:'.308 Precision', type:'weapon', costs:{metal:44, propH:18}, baseTime:110, baseValue:5200});
+  addProd({id:'ammo9', label:'9mm Batch', type:'ammo', costs:{metal:1, propL:6}, baseTime:8, baseValue:56, per:50});
+  addProd({id:'ammo45', label:'.45 Batch', type:'ammo', costs:{metal:1, propM:7}, baseTime:12, baseValue:74, per:40});
+  addProd({id:'ammo308', label:'.308 Pack', type:'ammo', costs:{metal:2, propH:10}, baseTime:18, baseValue:200, per:30});
+
+  /* Factories */
+  Game.factories = [
+    {id:'bench', name:'Bench Line', cost:900, type:'general', speed:1.25, enabled:true},
+    {id:'ammo_line', name:'Ammo Loader', cost:2800, type:'ammo', speed:1.8, enabled:false},
+    {id:'rifle_line', name:'Rifle Mill', cost:9800, type:'weapon', speed:1.6, enabled:false}
+  ];
+
+  /* Upgrades */
+  const Upgrades = [
+    {id:'u_press', name:'Precision Press', cost:420, desc:'+12% production speed', apply:()=>Game.upgrades.u_press=true},
+    {id:'u_auto', name:'Automated Press', cost:3200, desc:'+50% production speed', apply:()=>Game.upgrades.u_auto=true},
+    {id:'u_pack', name:'Packaging Unit', cost:1200, desc:'Package bonus +12%', apply:()=>Game.upgrades.u_pack=true}
+  ];
+
+  /* Research tree */
+  const Research = {
+    basic: {id:'basic', name:'Basic Methods', cost:40, desc:'Unlock better craft; passive research', unlocked:true},
+    calibers: {id:'calibers', name:'Calibers', cost:60, desc:'Access specific caliber variants', unlocked:false},
+    ammoTech: {id:'ammoTech', name:'Ammo Techniques', cost:70, desc:'Improve ammo yields', unlocked:false}
+  };
+  Game.research = JSON.parse(JSON.stringify(Research));
+
+  /* Market functions */
+  function computePrice(prodId, tier){
+    const p = Game.catalog.find(x=>x.id===prodId);
+    const mult = { low:0.78, med:1.0, high:1.66 }[tier] || 1;
+    return Math.max(1, Math.floor(p.baseValue * mult));
+  }
+
+  /* Utility: log */
+  function pushLog(txt){
+    const el = document.getElementById('log');
+    if (!el) return;
+    const d = document.createElement('div');
+    d.textContent = `[${(new Date()).toLocaleTimeString()}] ${txt}`;
+    el.prepend(d);
+    const map = [0,10,200,9999];
+    const keep = map[Game.settings.msgRetention] || 200;
+    while (el.children.length > keep) el.removeChild(el.lastChild);
+  }
+
+  /* Start a production job (manual/factory) */
+  function canAfford(costs, qty=1){
+    for (const k in costs) if ((Game.resources[k]||0) < costs[k]*qty) return false;
+    return true;
+  }
+  function deduct(costs, qty=1){
+    for (const k in costs) Game.resources[k] = Math.max(0, (Game.resources[k]||0) - costs[k]*qty);
+  }
+  function startJob(mode, prodId, qty=1, owner='Manual'){
+    const prod = Game.catalog.find(c=>c.id===prodId);
+    if (!prod) { pushLog('Unknown product'); return false; }
+    if (!canAfford(prod.costs || {}, qty)){ pushLog('Insufficient supplies'); return false; }
+    deduct(prod.costs || {}, qty);
+    // base time scaled by qty
+    const base = (prod.baseTime || 8) * qty;
+    // speed factor from workers and upgrades and factory
+    let speed = 1;
+    speed *= 1 + Math.min(Game.staff.workers, 80) * 0.018; // workers help
+    if (Game.upgrades.u_press) speed *= 1.12;
+    if (Game.upgrades.u_auto) speed *= 1.50;
+    if (mode === 'factory'){
+      // find matching enabled factory
+      const fac = Game.factories.find(f => f.enabled && (f.type === 'general' || f.type === prod.type));
+      if (fac) speed *= fac.speed;
+    }
+    const effective = Math.max(1, base / speed);
+    const job = { id:uid('job'), prodId, qty, mode, owner, remaining:effective, total:effective };
+    Game.production.push(job);
+    pushLog(`Started ${prod.label} x${qty} (${mode}) — ETA ${effective.toFixed(1)}s`);
+    renderAll();
+    return true;
+  }
+
+  /* Market listing */
+  function listItem(prodId, qty=1, tier='med'){
+    if ((Game.inventory[prodId]||0) < qty){ pushLog('Not enough inventory'); return false; }
+    Game.inventory[prodId] -= qty;
+    const l = { id:uid('list'), prodId, qty, tier, priceEach: computePrice(prodId, tier), created: Date.now() };
+    Game.market.push(l);
+    pushLog(`Listed ${prodLabel(prodId)} x${qty} @ ${tier} (${fmtMoney(l.priceEach)} ea)`);
+    renderAll();
+    return true;
+  }
+
+  function prodLabel(id){
+    const p = Game.catalog.find(x=>x.id===id);
+    return p ? p.label : id;
+  }
+
+  /* Market sales tick */
+  function marketTick(dt){
+    if (!Game.market.length) return;
+    const demandBase = 0.05;
+    const tierSell = { low:0.9, med:0.33, high:0.08 };
+    for (let i = Game.market.length - 1; i >= 0; i--){
+      const L = Game.market[i];
+      const sellProb = clamp(demandBase * tierSell[L.tier] * (1 + Math.random()*0.6), 0, 1);
+      const p = 1 - Math.pow(1 - sellProb, dt);
+      if (Math.random() < p){
+        L.qty -= 1;
+        Game.money += L.priceEach;
+        Game.stats.sold++;
+        pushLog(`Market sold 1 x ${prodLabel(L.prodId)} for ${fmtMoney(L.priceEach)}`);
+        if (L.qty <= 0) Game.market.splice(i,1);
+      }
     }
   }
-}
 
-/* --------------------------
-   Packaging crates
-   -------------------------- */
-function packageIntoCrate(prodId){
-  const need = 10;
-  if ((Game.inventory[prodId]||0) < need) { push('Not enough units to package'); return false; }
-  Game.inventory[prodId] -= need;
-  const crateId = prodId + '_crate';
-  Game.inventory[crateId] = (Game.inventory[crateId]||0) + 1;
-  push(`Packaged 10x ${prodLabel(prodId)} into crate`);
-  return true;
-}
-function cratePrice(prodId){
-  const each = priceOf(prodId, 'med');
-  return Math.floor(each * 10 * 1.12);
-}
+  /* Packaging */
+  function package10(prodId){
+    const need = 10;
+    if ((Game.inventory[prodId]||0) < need) { pushLog('Not enough units to package'); return false; }
+    Game.inventory[prodId] -= need;
+    const crateId = prodId + '_crate';
+    Game.inventory[crateId] = (Game.inventory[crateId]||0) + 1;
+    pushLog(`Packaged 10x ${prodLabel(prodId)} into crate`);
+    renderAll();
+    return true;
+  }
 
-/* --------------------------
-   Research nodes
-   -------------------------- */
-const Research = {
-  'r_basic_handgun': {id:'r_basic_handgun', name:'Basic Handgun Methods', cost:40, desc:'Unlock improved handgun craft', unlocked:true, children:['r_cal9','r_cal45']},
-  'r_cal9': {id:'r_cal9', name:'9mm Doctrine', cost:70, desc:'Better 9mm yield', unlocked:false},
-  'r_cal45': {id:'r_cal45', name:'.45 Doctrine', cost:80, desc:'Better .45 yield', unlocked:false},
-  'r_ammo': {id:'r_ammo', name:'Ammo Methods', cost:50, desc:'Unlock efficient ammo lines', unlocked:true, children:['r_ammo308']},
-  'r_ammo308': {id:'r_ammo308', name:'.308 Ammo Methods', cost:90, desc:'High-quality ammo handling', unlocked:false}
-};
-Game.research = JSON.parse(JSON.stringify(Research));
+  /* Gamble (very low odds, high payout) */
+  function gamble(amount, odds){
+    if (amount <= 0 || Game.money < amount) { pushLog('Invalid or insufficient funds for gamble'); return {err:true}; }
+    Game.money -= amount;
+    const win = Math.random() < (1/odds);
+    if (win){
+      const payout = Math.floor(amount * odds * 0.85);
+      Game.money += payout;
+      pushLog(`Gamble WIN! Bet ${fmtMoney(amount)} -> Payout ${fmtMoney(payout)} (1 in ${odds})`);
+      return {win:true, payout};
+    } else {
+      pushLog(`Gamble loss: ${fmtMoney(amount)} lost`);
+      return {win:false};
+    }
+  }
 
-function research(id){
-  const node = Game.research[id];
-  if (!node || node.unlocked) { push('Unavailable research'); return false; }
-  if (Game.researchPoints < node.cost){ push('Insufficient RP'); return false; }
-  Game.researchPoints -= node.cost;
-  node.unlocked = true;
-  push('Researched: ' + node.name);
-  // node effects (simple)
-  if (id === 'r_cal9'){ /* cosmetic / in-game buff */ }
-  return true;
-}
+  /* Save / Load */
+  function saveGame(){
+    const s = {
+      money: Game.money,
+      resources: Game.resources,
+      inventory: Game.inventory,
+      production: Game.production,
+      market: Game.market,
+      factories: Game.factories,
+      staff: Game.staff,
+      upgrades: Game.upgrades,
+      research: Game.research,
+      stats: Game.stats,
+      settings: Game.settings
+    };
+    localStorage.setItem('ff_save', JSON.stringify(s));
+    pushLog('Game saved locally.');
+  }
+  function loadGame(){
+    const raw = localStorage.getItem('ff_save');
+    if (!raw) return false;
+    try {
+      const s = JSON.parse(raw);
+      Game.money = s.money ?? Game.money;
+      Game.resources = s.resources ?? Game.resources;
+      Game.inventory = s.inventory ?? Game.inventory;
+      Game.production = s.production ?? Game.production;
+      Game.market = s.market ?? Game.market;
+      Game.factories = s.factories ?? Game.factories;
+      Game.staff = s.staff ?? Game.staff;
+      Game.upgrades = s.upgrades ?? Game.upgrades;
+      Game.research = s.research ?? Game.research;
+      Game.stats = s.stats ?? Game.stats;
+      Game.settings = s.settings ?? Game.settings;
+      pushLog('Save loaded.');
+      renderAll();
+      return true;
+    } catch(e){ console.error(e); return false; }
+  }
+  function exportSave(){
+    const data = localStorage.getItem('ff_save') || JSON.stringify({ money:Game.money });
+    const blob = new Blob([data], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'fortressforge_save.json'; a.click(); URL.revokeObjectURL(url);
+  }
+  function importSavePrompt(){
+    const txt = prompt('Paste save JSON:');
+    if (!txt) return;
+    try{ JSON.parse(txt); localStorage.setItem('ff_save', txt); loadGame(); pushLog('Imported save'); } catch(e){ alert('Invalid JSON'); }
+  }
+  function hardReset(){
+    if (!confirm('Hard reset — erase all progress?')) return;
+    localStorage.removeItem('ff_save'); location.reload();
+  }
 
-/* --------------------------
-   Helper labels & logs
-   -------------------------- */
-function prodLabel(id){
-  const p = Game.catalog.find(x=>x.id===id);
-  return p ? p.label : id;
-}
-function push(txt){
-  const el = document.getElementById('log');
-  if (!el) return;
-  const d = document.createElement('div');
-  d.textContent = `[${new Date().toLocaleTimeString()}] ${txt}`;
-  el.prepend(d);
-  // retention
-  const map = [0,10,200,9999];
-  const keep = map[Game.settings.msgRetention] || 200;
-  while (el.children.length > keep) el.removeChild(el.lastChild);
-}
-
-/* --------------------------
-   UI rendering functions
-   -------------------------- */
-function renderResources(){
-  const container = document.getElementById('resources');
-  container.innerHTML = '';
-  Game.resourceDefs.forEach(r=>{
-    const row = document.createElement('div'); row.className='res-row';
-    const left = document.createElement('div'); left.className='res-left';
-    const badge = document.createElement('div'); badge.className='badge'; badge.textContent = r.icon;
-    const name = document.createElement('div');
-    name.innerHTML = `<div class="res-name">${r.name}</div><div class="small">${r.id}</div>`;
-    left.appendChild(badge); left.appendChild(name);
-    const right = document.createElement('div'); right.style.textAlign='right';
-    const qty = Game.resources[r.id] || 0;
-    right.innerHTML = `<div class="res-qty">${qty}</div><div class="small">${fmt(Math.max(1, Math.floor(r.base * (0.9 + Math.random()*0.3))))}</div>`;
-    row.appendChild(left); row.appendChild(right); container.appendChild(row);
-  });
-  document.getElementById('cash').textContent = fmt(Game.money);
-  document.getElementById('stage').textContent = Game.staff.workers === 0 ? 'Solo Operator' : (Game.staff.workers < 8 ? 'Small Crew' : 'Factory Manager');
-}
-
-function renderQuickSelect(){
-  const sel = document.getElementById('quickSelect'); sel.innerHTML = '';
-  Game.catalog.forEach(c => {
-    const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.label + ' (' + c.type + ')';
-    sel.appendChild(opt);
-  });
-}
-
-function renderInventory(){
-  const grid = document.getElementById('inventory'); grid.innerHTML = '';
-  Object.keys(Game.inventory).forEach(k=>{
-    const qty = Game.inventory[k]||0;
-    if (!qty) return;
-    const box = document.createElement('div'); box.className='listing';
-    const label = prodLabel(k.split('_crate')[0]) + (k.endsWith('_crate') ? ' (Crate)' : '');
-    box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">${label}</div><div style="font-family:var(--mono);font-weight:900">${qty}x</div></div>`;
-    const actions = document.createElement('div'); actions.style.marginTop='8px'; actions.style.display='flex'; actions.style.gap='8px';
-    const lbtn = document.createElement('button'); lbtn.className='btn small'; lbtn.textContent='List';
-    lbtn.addEventListener('click', ()=> {
-      const tier = prompt('Tier (low/med/high)', 'med'); const q = parseInt(prompt('Qty to list', '1'), 10);
-      if (isNaN(q) || q < 1) return alert('Invalid qty');
-      listItem(k, q, tier);
-      renderInventory(); renderMarket();
+  /* Rendering UI */
+  function el(q){ return document.querySelector(q); }
+  function renderResources(){
+    const cont = el('#supplyList'); cont.innerHTML = '';
+    Game.resourceDefs.forEach(r=>{
+      const row = document.createElement('div'); row.className = 'resource';
+      const left = document.createElement('div'); left.className = 'res-left';
+      const badge = document.createElement('div'); badge.className = 'badge'; badge.textContent = r.icon;
+      const name = document.createElement('div'); name.innerHTML = `<div class="res-name">${r.name}</div><div class="small">${r.id}</div>`;
+      left.appendChild(badge); left.appendChild(name);
+      const right = document.createElement('div'); right.style.textAlign='right';
+      const qty = Game.resources[r.id] || 0;
+      right.innerHTML = `<div class="res-qty">${qty}</div><div class="small">${fmtMoney(Math.max(1, Math.floor(r.base * (0.9 + Math.random()*0.3))))}</div>`;
+      row.appendChild(left); row.appendChild(right);
+      cont.appendChild(row);
     });
-    const pbtn = document.createElement('button'); pbtn.className='btn small secondary'; pbtn.textContent='Package';
-    pbtn.addEventListener('click', ()=> {
-      if (confirm('Package 10 units into a crate?')) { if (packageIntoCrate(k.split('_crate')[0])) { renderInventory(); } }
+    el('#cash').textContent = fmtMoney(Game.money);
+    el('#workers').textContent = Game.staff.workers;
+    el('#rank').textContent = Game.staff.workers === 0 ? 'Solo Operator' : (Game.staff.workers < 8 ? 'Crew Leader' : 'Factory Commander');
+  }
+
+  function renderCatalogSelects(){
+    // pack select
+    const pack = el('#packSelect'); if (pack){ pack.innerHTML = ''; Game.catalog.forEach(c => { const o = document.createElement('option'); o.value=c.id; o.textContent=c.label; pack.appendChild(o); }); }
+  }
+
+  function renderInventory(){
+    const grid = el('#inventory'); grid.innerHTML = '';
+    Object.keys(Game.inventory).forEach(key=>{
+      const qty = Game.inventory[key] || 0;
+      if (!qty) return;
+      const card = document.createElement('div'); card.className = 'card';
+      card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">${prodLabel(key.replace('_crate',''))}${key.endsWith('_crate') ? ' (Crate)' : ''}</div><div style="font-family:var(--mono);font-weight:900">${qty}x</div></div>`;
+      const actions = document.createElement('div'); actions.style.marginTop='8px'; actions.style.display='flex'; actions.style.gap='8px';
+      const listBtn = document.createElement('button'); listBtn.className='btn small'; listBtn.textContent='List';
+      listBtn.addEventListener('click', ()=>{
+        const tier = prompt('Tier (low/med/high)', 'med'); const q = parseInt(prompt('Qty to list', '1'), 10) || 1;
+        if (isNaN(q) || q < 1) return alert('Invalid qty');
+        listItem(key, q, tier);
+        renderInventory();
+      });
+      const pkgBtn = document.createElement('button'); pkgBtn.className='btn small secondary'; pkgBtn.textContent='Package';
+      pkgBtn.addEventListener('click', ()=>{
+        if (confirm('Package 10 units into crate?')){ package10(key.replace('_crate','')); renderInventory(); }
+      });
+      actions.appendChild(listBtn); actions.appendChild(pkgBtn); card.appendChild(actions);
+      grid.appendChild(card);
     });
-    actions.appendChild(lbtn); actions.appendChild(pbtn);
-    box.appendChild(actions);
-    grid.appendChild(box);
-  });
-}
+  }
 
-function renderActiveJobs(){
-  const out = document.getElementById('activeList'); out.innerHTML = '';
-  document.getElementById('prodCount').textContent = `${Game.production.length} active`;
-  Game.production.forEach(job=>{
-    const p = Game.catalog.find(x=>x.id===job.productId) || {label:job.productId};
-    const el = document.createElement('div'); el.className='listing';
-    const title = document.createElement('div'); title.style.display='flex'; title.style.justifyContent='space-between';
-    title.innerHTML = `<div style="font-weight:900">${p.label} x${job.qty}</div><div class="small">${job.mode}</div>`;
-    el.appendChild(title);
-    const barWrap = document.createElement('div'); barWrap.className='progress-wrap'; barWrap.style.marginTop='8px';
-    const bar = document.createElement('div'); bar.className='progress-bar spark';
-    const pct = clamp(0, (1 - (job.remaining / job.total)) * 100, 100);
-    bar.style.width = pct + '%';
-    barWrap.appendChild(bar); el.appendChild(barWrap);
-    const meta = document.createElement('div'); meta.className='small'; meta.style.marginTop='6px'; meta.textContent = `ETA ${job.remaining.toFixed(1)}s`;
-    el.appendChild(meta);
-    const ctrl = document.createElement('div'); ctrl.style.marginTop='8px'; ctrl.style.display='flex'; ctrl.style.gap='8px';
-    const cancel = document.createElement('button'); cancel.className='btn small secondary'; cancel.textContent='Cancel';
-    cancel.addEventListener('click', ()=>{
-      // refund partial resources ? to keep simple: no refund; cancel removes job
-      Game.production = Game.production.filter(j=>j.id!==job.id);
-      push('Job canceled');
-      renderActiveJobs(); renderInventory();
+  function renderWorkbenches(){
+    const wb = el('#workbench'); wb.innerHTML = '';
+    Game.catalog.forEach(c=>{
+      const box = document.createElement('div'); box.className='card'; box.style.marginBottom='8px';
+      box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${c.label}</div><div class="small">${c.type}</div></div><div class="small" style="margin-top:6px">Time: ${c.baseTime}s • Value: ${fmtMoney(c.baseValue)}</div>`;
+      const ctl = document.createElement('div'); ctl.style.marginTop='8px'; ctl.style.display='flex'; ctl.style.gap='8px';
+      const qty = document.createElement('input'); qty.type='number'; qty.value=1; qty.min=1; qty.style.width='72px'; qty.style.padding='6px'; qty.style.borderRadius='6px';
+      const btn = document.createElement('button'); btn.className='btn small'; btn.textContent='Start (Manual)';
+      btn.addEventListener('click', ()=> {
+        const q = Math.max(1, parseInt(qty.value||1,10));
+        if (!startJob('manual', c.id, q)) alert('Insufficient supplies to start.');
+        renderAll();
+      });
+      ctl.appendChild(qty); ctl.appendChild(btn); box.appendChild(ctl); wb.appendChild(box);
     });
-    ctrl.appendChild(cancel); el.appendChild(ctrl);
-    out.appendChild(el);
-  });
-}
+  }
 
-/* factories & manual UI */
-function renderManualArea(){
-  const area = document.getElementById('manualArea'); area.innerHTML = '';
-  Game.catalog.forEach(c=>{
-    const card = document.createElement('div'); card.className='listing';
-    card.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${c.label}</div><div class="small">${c.type}</div></div><div class="small" style="margin-top:6px">Time: ${c.baseTime}s • Value: ${fmt(c.baseValue || 10)}</div>`;
-    const ctrl = document.createElement('div'); ctrl.style.marginTop='8px'; ctrl.style.display='flex'; ctrl.style.gap='8px';
-    const qty = document.createElement('input'); qty.value=1; qty.type='number'; qty.min=1; qty.style.width='80px'; qty.style.padding='6px'; qty.style.borderRadius='6px';
-    const start = document.createElement('button'); start.className='btn small'; start.textContent='Start Manual';
-    start.addEventListener('click', ()=> {
-      const q = Math.max(1, parseInt(qty.value||1,10));
-      if (!startJob('manual', c.id, q)) alert('Cannot start: insufficient resources');
-      renderActiveJobs(); renderInventory(); renderResources();
-    });
-    ctrl.appendChild(qty); ctrl.appendChild(start); card.appendChild(ctrl);
-    area.appendChild(card);
-  });
-}
-
-function renderFactories(){
-  const area = document.getElementById('factoryArea'); area.innerHTML = '';
-  Game.factories.forEach(f=>{
-    const c = document.createElement('div'); c.className='listing';
-    c.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${f.name}</div><div class="small">${f.enabled ? 'Operational' : 'For Purchase'}</div></div><div class="small" style="margin-top:6px">Speed: ${f.speed}x • Cost: ${fmt(f.cost)}</div>`;
-    const btn = document.createElement('button'); btn.className='btn small'; btn.textContent = f.enabled ? 'Run' : 'Buy';
-    btn.addEventListener('click', ()=> {
-      if (!f.enabled){
-        if (confirm(`Buy ${f.name} for ${fmt(f.cost)}?`)){
-          if (Game.money < f.cost){ alert('Not enough cash'); return; }
-          Game.money -= f.cost; f.enabled = true; push(`Purchased ${f.name}`); renderResources(); renderFactories();
-        }
-      } else {
-        // run: prompt product to produce
-        const prod = prompt('Enter product id to produce (e.g., p_9mm, a_9mm):');
-        const qty = parseInt(prompt('Qty', '1'), 10) || 1;
-        if (!prod) return;
-        if (!startJob('factory', prod, qty, f.name)) alert('Failed to start job (resources?)');
-        renderActiveJobs();
-      }
-    });
-    c.appendChild(btn);
-    area.appendChild(c);
-  });
-}
-
-function renderQueue(){
-  const q = document.getElementById('queue'); q.innerHTML = '';
-  Game.production.forEach(job=>{
-    const item = document.createElement('div'); item.className='listing';
-    item.innerHTML = `<div style="display:flex;justify-content:space-between"><div>${prodLabel(job.productId)} x${job.qty}</div><div class="small">${job.mode}</div></div>`;
-    q.appendChild(item);
-  });
-}
-
-/* market render */
-function renderMarket(){
-  const area = document.getElementById('marketArea'); area.innerHTML = '';
-  // left: active listings / create listing
-  const left = document.createElement('div'); left.className='card';
-  left.innerHTML = `<div style="font-weight:900">Create Listing</div><div class="small" style="margin-top:6px">Pick an item from inventory to list</div>`;
-  const select = document.createElement('select'); select.style.marginTop='8px'; select.style.width='100%';
-  Object.keys(Game.inventory).forEach(k=>{ if ((Game.inventory[k]||0) > 0) { const opt = document.createElement('option'); opt.value=k; opt.textContent = prodLabel(k.split('_crate')[0]) + ' x' + Game.inventory[k]; select.appendChild(opt); }});
-  left.appendChild(select);
-  const tier = document.createElement('select'); tier.style.marginTop='8px'; tier.style.width='100%';
-  ['low','med','high'].forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent = t; tier.appendChild(o); });
-  left.appendChild(tier);
-  const qtyBox = document.createElement('input'); qtyBox.type='number'; qtyBox.value=1; qtyBox.min=1; qtyBox.style.width='100%'; qtyBox.style.marginTop='8px';
-  left.appendChild(qtyBox);
-  const btn = document.createElement('button'); btn.className='btn'; btn.textContent='List on Market'; btn.style.marginTop='8px';
-  btn.addEventListener('click', ()=> {
-    const item = select.value; const q = Math.max(1, parseInt(qtyBox.value||1,10)); const t = tier.value;
-    if (!item) return alert('No inventory items');
-    listItem(item, q, t); renderInventory(); renderMarket();
-  });
-  left.appendChild(btn);
-
-  const right = document.createElement('div'); right.className='card';
-  right.innerHTML = `<div style="font-weight:900">Current Listings</div><div class="small" style="margin-top:6px">Listings sell over time based on tier</div>`;
-  Game.market.forEach(L=>{
-    const box = document.createElement('div'); box.className='listing'; box.style.marginTop='8px';
-    box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${prodLabel(L.prodId)}</div><div style="font-family:var(--mono);font-weight:900">${L.qty}x</div></div><div class="small">Tier ${L.tier} • ${fmt(L.priceEach)}</div>`;
-    right.appendChild(box);
-  });
-  area.appendChild(left); area.appendChild(right);
-}
-
-/* research render */
-function renderResearch(){
-  const grid = document.getElementById('researchArea'); grid.innerHTML = '';
-  Object.values(Game.research).forEach(n=>{
-    const c = document.createElement('div'); c.className='listing';
-    c.innerHTML = `<div style="font-weight:900">${n.name}</div><div class="small" style="margin-top:6px">${n.desc}</div><div class="small" style="margin-top:6px">Cost: ${n.cost || '—'}</div>`;
-    const b = document.createElement('button'); b.className='btn small'; b.textContent = n.unlocked ? 'Unlocked' : 'Research';
-    b.disabled = !!n.unlocked;
-    b.addEventListener('click', ()=> { if (!n.unlocked && Game.researchPoints >= n.cost) { Game.researchPoints -= n.cost; n.unlocked = true; push('Research complete: ' + n.name); renderResearch(); } else alert('Not enough RP');});
-    c.appendChild(b);
-    grid.appendChild(c);
-  });
-}
-
-/* staff & upgrades */
-function renderStaff(){
-  const area = document.getElementById('staffArea'); area.innerHTML = '';
-  const box = document.createElement('div'); box.className='listing';
-  box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">Workers</div><div style="font-family:var(--mono);font-weight:900">${Game.staff.workers}</div></div><div class="small" style="margin-top:6px">Cost to hire: ${fmt(180 + Game.staff.workers * 25)}</div>`;
-  const h = document.createElement('button'); h.className='btn small'; h.textContent='Hire';
-  h.addEventListener('click', ()=> {
-    const cost = 180 + Game.staff.workers * 25;
-    if (Game.money < cost) return push('Not enough cash to hire');
-    Game.money -= cost; Game.staff.workers++; push('Hired one worker'); renderResources(); renderStaff();
-  });
-  box.appendChild(h);
-  area.appendChild(box);
-}
-
-/* upgrades */
-function renderUpgrades(){
-  const area = document.getElementById('upgArea'); area.innerHTML = '';
-  Equipment.forEach(e=>{
-    const c = document.createElement('div'); c.className='listing';
-    c.innerHTML = `<div style="font-weight:900">${e.name}</div><div class="small" style="margin-top:6px">${e.desc}</div><div class="small" style="margin-top:6px">Cost: ${fmt(e.cost)}</div>`;
-    const b = document.createElement('button'); b.className='btn small'; b.textContent = Game.upgrades[e.id] ? 'Owned' : 'Buy';
-    b.disabled = !!Game.upgrades[e.id];
-    b.addEventListener('click', ()=> {
-      if (Game.money < e.cost) return push('Insufficient funds');
-      Game.money -= e.cost; e.effect(); push('Purchased: ' + e.name);
-      renderResources(); renderUpgrades();
-    });
-    c.appendChild(b);
-    area.appendChild(c);
-  });
-}
-
-/* packaging area */
-function renderPackaging(){
-  const sel = document.getElementById('packSelect'); sel.innerHTML = '';
-  Game.catalog.forEach(c=>{ const opt = document.createElement('option'); opt.value=c.id; opt.textContent=c.label; sel.appendChild(opt); });
-}
-
-/* --------------------------
-   Tick loop (advance time)
-   -------------------------- */
-function tick(){
-  const now = Date.now();
-  const dt = Math.max(0.2, (now - Game.lastTick) / 1000);
-  Game.lastTick = now;
-
-  // progress jobs
-  for (let i = Game.production.length - 1; i >= 0; i--){
-    const job = Game.production[i];
-    // dynamic speed influenced by workers & equipment & difficulty
-    let speed = 1 + Math.min(Game.staff.workers, 80) * 0.018;
-    if (Game.upgrades['eq_press']) speed *= 1.10;
-    if (Game.upgrades['eq_auto']) speed *= 1.45;
-    job.remaining -= dt * speed;
-    if (job.remaining <= 0){
-      // finalize
-      const prodDef = Game.catalog.find(x => x.id === job.productId);
-      if (prodDef){
-        if (prodDef.type === 'ammo' && prodDef.per){
-          const add = (prodDef.per || 1) * job.qty;
-          Game.inventory[job.productId] = (Game.inventory[job.productId]||0) + add;
-          push(`Completed ${prodDef.label} -> +${add} units`);
+  function renderFactories(){
+    const area = el('#factories'); area.innerHTML = '';
+    Game.factories.forEach(f=>{
+      const b = document.createElement('div'); b.className='card'; b.style.marginBottom='8px';
+      b.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${f.name}</div><div class="small">${f.enabled ? 'Operational' : 'For Purchase'}</div></div><div class="small" style="margin-top:6px">Speed: ${f.speed}x • Cost: ${fmtMoney(f.cost)}</div>`;
+      const btn = document.createElement('button'); btn.className='btn small'; btn.textContent = f.enabled ? 'Run' : 'Buy';
+      btn.addEventListener('click', ()=>{
+        if (!f.enabled){
+          if (!confirm(`Buy ${f.name} for ${fmtMoney(f.cost)}?`)) return;
+          if (Game.money < f.cost) { pushLog('Insufficient funds'); return; }
+          Game.money -= f.cost; f.enabled = true; pushLog(`Purchased ${f.name}`); renderAll();
         } else {
-          Game.inventory[job.productId] = (Game.inventory[job.productId]||0) + job.qty;
-          push(`Completed ${prodDef.label} x${job.qty}`);
+          const prod = prompt('Enter product id to produce (e.g. 9mm or ammo9):'); const qty = parseInt(prompt('Qty', '1'), 10) || 1;
+          if (!prod) return;
+          if (!startJob('factory', prod, qty, f.name)) alert('Cannot start (resources?)');
+          renderAll();
         }
-      } else {
-        Game.inventory[job.productId] = (Game.inventory[job.productId]||0) + job.qty;
+      });
+      b.appendChild(btn); area.appendChild(b);
+    });
+  }
+
+  function renderQueue(){
+    const q = el('#queue'); q.innerHTML = '';
+    Game.production.forEach(job=>{
+      const box = document.createElement('div'); box.className='card'; box.style.marginBottom='8px';
+      const prod = Game.catalog.find(c=>c.id===job.prodId) || {label:job.prodId};
+      box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${prod.label} x${job.qty}</div><div class="small">${job.mode}</div></div>`;
+      const wrap = document.createElement('div'); wrap.className='progress-wrap'; wrap.style.marginTop='8px';
+      const bar = document.createElement('div'); bar.className='progress-bar spark';
+      const pct = clamp(0, (1 - job.remaining / job.total) * 100, 100);
+      bar.style.width = pct + '%'; wrap.appendChild(bar); box.appendChild(wrap);
+      const meta = document.createElement('div'); meta.className='small'; meta.style.marginTop='6px'; meta.textContent = `ETA ${job.remaining.toFixed(1)}s • Owner: ${job.owner || '—'}`;
+      box.appendChild(meta);
+      const cancel = document.createElement('button'); cancel.className='btn small secondary'; cancel.style.marginTop='8px'; cancel.textContent='Cancel';
+      cancel.addEventListener('click', ()=>{
+        Game.production = Game.production.filter(j=>j.id!==job.id); pushLog('Job canceled'); renderAll();
+      });
+      box.appendChild(cancel); q.appendChild(box);
+    });
+  }
+
+  function renderActive(){
+    const active = el('#activeJobs'); active.innerHTML = '';
+    Game.production.slice(0,6).forEach(j => {
+      const p = Game.catalog.find(x=>x.id===j.prodId) || {label:j.prodId};
+      const row = document.createElement('div'); row.className='card'; row.style.marginBottom='8px';
+      row.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${p.label} x${j.qty}</div><div class="small">${j.mode}</div></div>`;
+      const wrap = document.createElement('div'); wrap.className='progress-wrap'; wrap.style.marginTop='8px';
+      const bar = document.createElement('div'); bar.className='progress-bar spark'; bar.style.width = clamp(0,(1 - j.remaining/j.total)*100,100) + '%'; wrap.appendChild(bar); row.appendChild(wrap);
+      active.appendChild(row);
+    });
+    el('#marketPulse').textContent = `${Game.market.length} listings • ${Game.stats.sold} sold lifetime`;
+  }
+
+  function renderMarketArea(){
+    const area = el('#marketArea'); area.innerHTML = '';
+    const left = document.createElement('div'); left.className='card';
+    left.innerHTML = `<div style="font-weight:900">Create Listing</div><div class="small" style="margin-top:6px">Select from inventory</div>`;
+    const sel = document.createElement('select'); sel.style.marginTop='8px'; sel.style.width='100%';
+    Object.keys(Game.inventory).forEach(k=>{ if ((Game.inventory[k]||0)>0){ const o=document.createElement('option'); o.value=k; o.textContent = prodLabel(k.replace('_crate','')) + ' x' + Game.inventory[k]; sel.appendChild(o); }});
+    left.appendChild(sel);
+    const tier = document.createElement('select'); tier.style.marginTop='8px'; tier.style.width='100%';
+    ['low','med','high'].forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; tier.appendChild(o); });
+    left.appendChild(tier);
+    const qty = document.createElement('input'); qty.type='number'; qty.value=1; qty.min=1; qty.style.marginTop='8px'; qty.style.width='100%';
+    left.appendChild(qty);
+    const btn = document.createElement('button'); btn.className='btn'; btn.textContent='List'; btn.style.marginTop='8px';
+    btn.addEventListener('click', ()=> {
+      if (!sel.value) return alert('No inventory items');
+      const q = Math.max(1, parseInt(qty.value||1,10)); listItem(sel.value, q, tier.value); renderMarketArea(); renderInventory();
+    });
+    left.appendChild(btn);
+
+    const right = document.createElement('div'); right.className='card';
+    right.innerHTML = '<div style="font-weight:900">Listings</div><div class="small" style="margin-top:6px">Market listings sell over time</div>';
+    Game.market.forEach(L=>{
+      const box = document.createElement('div'); box.className='card'; box.style.marginTop='8px';
+      box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${prodLabel(L.prodId)}</div><div style="font-family:var(--mono);font-weight:900">${L.qty}x</div></div><div class="small">Tier ${L.tier} • ${fmtMoney(L.priceEach)}</div>`;
+      right.appendChild(box);
+    });
+    area.appendChild(left); area.appendChild(right);
+  }
+
+  function renderResearch(){
+    const area = el('#researchArea'); area.innerHTML = '';
+    Object.values(Game.research).forEach(node=>{
+      const card = document.createElement('div'); card.className='card';
+      card.innerHTML = `<div style="font-weight:900">${node.name}</div><div class="small" style="margin-top:6px">${node.desc}</div><div class="small" style="margin-top:6px">Cost: ${node.cost || '—'}</div>`;
+      const btn = document.createElement('button'); btn.className='btn small'; btn.textContent = node.unlocked ? 'Unlocked' : 'Research';
+      btn.disabled = !!node.unlocked;
+      btn.addEventListener('click', ()=> {
+        if (Game.stats.researchPoints < node.cost) return alert('Not enough RP');
+        Game.stats.researchPoints -= node.cost; node.unlocked = true; pushLog('Research: ' + node.name); renderResearch();
+      });
+      card.appendChild(btn); area.appendChild(card);
+    });
+  }
+
+  function renderUpgrades(){
+    const area = el('#upgList'); area.innerHTML = '';
+    Upgrades.forEach(u=>{
+      const c = document.createElement('div'); c.className='card';
+      c.innerHTML = `<div style="font-weight:900">${u.name}</div><div class="small" style="margin-top:6px">${u.desc}</div><div class="small" style="margin-top:6px">Cost: ${fmtMoney(u.cost)}</div>`;
+      const b = document.createElement('button'); b.className='btn small'; b.textContent = Game.upgrades[u.id] ? 'Owned' : 'Buy';
+      b.disabled = !!Game.upgrades[u.id];
+      b.addEventListener('click', ()=> {
+        if (Game.money < u.cost) return pushLog('Not enough funds to buy upgrade');
+        Game.money -= u.cost; u.apply(); pushLog('Purchased upgrade: ' + u.name); renderAll();
+      });
+      c.appendChild(b); area.appendChild(c);
+    });
+  }
+
+  /* Main render wrapper */
+  function renderAll(){
+    renderResources(); renderCatalogSelects(); renderInventory(); renderWorkbenches(); renderFactories(); renderQueue(); renderActive(); renderMarketArea(); renderResearch(); renderUpgrades();
+    el('#cash').textContent = fmtMoney(Game.money);
+  }
+
+  /* Tick: advance production, market, random events */
+  function tick(){
+    const now = Date.now(); const dt = Math.max(0.2, (now - Game.lastTick)/1000); Game.lastTick = now;
+
+    // production progress
+    for (let i = Game.production.length - 1; i >= 0; i--){
+      const job = Game.production[i];
+      let speed = 1 + Math.min(Game.staff.workers, 80)*0.018;
+      if (Game.upgrades.u_press) speed *= 1.12;
+      if (Game.upgrades.u_auto) speed *= 1.50;
+      job.remaining -= dt * speed;
+      if (job.remaining <= 0){
+        // finalize
+        const prod = Game.catalog.find(c=>c.id===job.prodId);
+        if (prod){
+          if (prod.type === 'ammo' && prod.per){
+            const add = prod.per * job.qty;
+            Game.inventory[job.prodId] = (Game.inventory[job.prodId]||0) + add;
+            pushLog(`Produced ${prod.label} -> +${add} units`);
+          } else {
+            Game.inventory[job.prodId] = (Game.inventory[job.prodId]||0) + job.qty;
+            pushLog(`Produced ${prod.label} x${job.qty}`);
+          }
+        } else {
+          Game.inventory[job.prodId] = (Game.inventory[job.prodId]||0) + job.qty;
+        }
+        Game.stats.produced += job.qty;
+        Game.production.splice(i,1);
       }
-      Game.stats.produced += job.qty;
-      Game.production.splice(i,1);
     }
-  }
 
-  // market sales
-  marketTick(dt);
+    // market tick
+    marketTick(dt);
 
-  // tiny passive resource drift if easy
-  if (Math.random() < 0.02 && Game.settings.difficulty === 'easy'){
-    const r = choose(Game.resourceDefs).id; Game.resources[r] = (Game.resources[r]||0) + rand(0,2); push('Scavenged minor resource');
-  }
-
-  // periodic modest random income (simulating occasional small orders)
-  if (Math.random() < 0.01) {
-    const inc = rand(8,28);
-    Game.money += inc;
-    // keep small so not exploitable
-    push(`Small contract payout ${fmt(inc)}`);
-  }
-
-  // render
-  renderResources();
-  renderActiveJobs();
-  renderInventory();
-  renderQueue();
-  renderMarket();
-  // update cash stat display
-  document.getElementById('cash').textContent = fmt(Game.money);
-}
-
-/* --------------------------
-   UI wiring & init
-   -------------------------- */
-document.getElementById('tabs').addEventListener('click',(e)=>{
-  const tab = e.target.closest('.tab'); if (!tab) return;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  tab.classList.add('active');
-  const name = tab.dataset.tab;
-  document.querySelectorAll('.tab-page').forEach(p=>p.style.display='none');
-  document.getElementById(name).style.display = 'block';
-});
-
-document.getElementById('gather').addEventListener('click', ()=>{
-  const diff = document.getElementById('diff') ? document.getElementById('diff').value : 'normal';
-  const chance = diff === 'hard' ? 0.25 : diff === 'easy' ? 0.85 : 0.5;
-  if (Math.random() < chance){
-    const r = choose(Game.resourceDefs).id;
-    const amt = rand(1,3);
-    Game.resources[r] = (Game.resources[r]||0) + amt;
-    push(`Gathered +${amt} ${r}`);
-  } else push('Gather turned up nothing');
-  renderResources();
-});
-
-document.getElementById('handMake').addEventListener('click', ()=>{
-  const sel = document.getElementById('quickSelect'); const id = sel.value;
-  if (!id) return alert('Select a product');
-  if (!startJob('manual', id, 1)) alert('Insufficient resources');
-  renderActiveJobs(); renderInventory(); renderResources();
-});
-
-document.getElementById('sellExcess').addEventListener('click', ()=>{
-  let gain = 0;
-  Game.resourceDefs.forEach(r=>{
-    const qty = Game.resources[r.id]||0;
-    if (qty > 12){
-      const sell = Math.floor(qty/2);
-      const price = Math.floor(r.base * sell * (0.72 + Math.random()*0.18));
-      Game.resources[r.id] -= sell; Game.money += price; gain += price;
+    // occasional small resource find (depend on difficulty)
+    if (Math.random() < (Game.settings.difficulty === 'hard' ? 0.02 : 0.06)){
+      const r = choice(Game.resourceDefs).id; const amt = rand(0,2);
+      if (amt > 0){ Game.resources[r] = (Game.resources[r]||0) + amt; pushLog(`Found small ${r}`); }
     }
+
+    // small random contract cash (rare)
+    if (Math.random() < 0.01){
+      const inc = rand(6,32);
+      Game.money += inc;
+      pushLog(`Small contract: +${fmtMoney(inc)}`);
+    }
+
+    renderAll();
+  }
+
+  /* UI wiring */
+  // Tabs
+  el('#tabs').addEventListener('click', (e)=> {
+    const t = e.target.closest('.tab'); if (!t) return;
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const name = t.dataset.tab;
+    document.querySelectorAll('.tab-page').forEach(p=>p.style.display='none');
+    document.getElementById(name).style.display = 'block';
   });
-  if (gain) push(`Sold raw for ${fmt(gain)}`); else push('No excess to sell');
-  renderResources();
-});
 
-document.getElementById('hire').addEventListener('click', ()=>{
-  const cost = 180 + Game.staff.workers * 25;
-  if (Game.money < cost) return push('Insufficient funds to hire');
-  Game.money -= cost; Game.staff.workers++; push('Worker hired');
-  renderResources(); renderStaff();
-});
-
-document.getElementById('saveBtn').addEventListener('click', ()=>{
-  const save = JSON.stringify(Game);
-  localStorage.setItem('armory_command_save', save); push('Saved locally');
-});
-document.getElementById('exportBtn').addEventListener('click', ()=>{
-  const data = localStorage.getItem('armory_command_save') || JSON.stringify(Game);
-  const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'armory_command_save.json'; a.click(); URL.revokeObjectURL(url);
-});
-document.getElementById('importBtn').addEventListener('click', ()=>{
-  const txt = prompt('Paste save JSON to import:'); if (!txt) return;
-  try{ const s = JSON.parse(txt); Object.assign(Game, s); push('Imported save'); renderResources(); renderAll(); } catch(e){ alert('Invalid JSON'); }
-});
-
-document.getElementById('quickStart').addEventListener('click', ()=>{
-  const sel = document.getElementById('quickSelect'); const qty = Math.max(1, parseInt(document.getElementById('quickQty').value||1,10));
-  if (!sel.value) return alert('No product selected'); startJob('manual', sel.value, qty); renderActiveJobs(); renderInventory(); renderResources();
-});
-
-document.getElementById('packBtn').addEventListener('click', ()=> {
-  const sel = document.getElementById('packSelect'); const id = sel.value;
-  if (!id) return alert('Select a product'); if (!packageIntoCrate(id)) alert('Packaging failed'); renderInventory();
-});
-
-document.getElementById('resetGame').addEventListener('click', ()=> {
-  if (!confirm('Hard reset: clear all progress?')) return;
-  localStorage.removeItem('armory_command_save'); location.reload();
-});
-
-/* corner actions */
-document.getElementById('quickTips').addEventListener('click', ()=> alert('Tips: Start by crafting ammo batches, list some at LOW price for fast turnover, hire workers to speed production.'));
-document.getElementById('ach').addEventListener('click', ()=> alert('Achievements will appear as you reach milestones (not implemented in full).'));
-
-/* UI init functions */
-function renderAll(){
-  renderResources(); renderQuickSelect(); renderInventory(); renderActiveJobs(); renderManualArea(); renderFactories(); renderQueue(); renderMarket(); renderResearch(); renderStaff(); renderUpgrades(); renderPackaging();
-}
-function renderMarket(){ // wrapper call
-  const p = document.getElementById('marketArea');
-  if (!p) return;
-  p.innerHTML = '';
-  const left = document.createElement('div'); left.className='card'; left.style.padding='10px';
-  left.innerHTML = `<div style="font-weight:900">Listings</div><div class="small" style="margin-top:6px">Create & manage listings</div>`;
-  p.appendChild(left);
-  const right = document.createElement('div'); right.className='card';
-  right.innerHTML = `<div style="font-weight:900">Active Market</div><div class="small" style="margin-top:6px">Current offers</div>`;
-  Game.market.forEach(L=>{
-    const box = document.createElement('div'); box.className='listing'; box.style.marginTop='8px';
-    box.innerHTML = `<div style="display:flex;justify-content:space-between"><div style="font-weight:900">${prodLabel(L.prodId)}</div><div style="font-family:var(--mono);font-weight:900">${L.qty}x</div></div><div class="small">Tier ${L.tier} • ${fmt(L.priceEach)}</div>`;
-    right.appendChild(box);
+  // Buttons
+  el('#scavengeBtn').addEventListener('click', ()=> {
+    const diff = el('#diff') ? el('#diff').value : 'normal';
+    const chance = diff === 'hard' ? 0.25 : diff === 'easy' ? 0.85 : 0.5;
+    if (Math.random() < chance){
+      const r = choice(Game.resourceDefs).id; const amt = rand(1,3);
+      Game.resources[r] = (Game.resources[r]||0) + amt; pushLog(`Scavenged +${amt} ${r}`);
+    } else pushLog('Scavenge found nothing');
+    renderResources();
   });
-  p.appendChild(right);
-}
 
-/* small helpers */
-function renderAllBrief(){ renderResources(); renderQuickSelect(); renderInventory(); renderActiveJobs(); renderManualArea(); renderFactories(); renderQueue(); renderMarket(); renderResearch(); renderStaff(); renderUpgrades(); renderPackaging(); }
+  el('#craftBtn').addEventListener('click', ()=> {
+    const prod = prompt('Enter product id to craft (9mm/45/556/308/ammo9/ammo45/ammo308):','9mm');
+    const qty = parseInt(prompt('Quantity','1'),10) || 1;
+    if (!prod) return;
+    if (!startJob('manual', prod, qty)) alert('Cannot start: insufficient supplies');
+  });
 
-/* Boot */
-Game.lastTick = Date.now();
-renderAllBrief();
-setInterval(tick, 1000);
-push('Armory Command active — game-only simulation. No real-world instructions included.');
+  el('#sellRawBtn').addEventListener('click', ()=>{
+    let gained = 0;
+    Game.resourceDefs.forEach(r => {
+      const qty = Game.resources[r.id] || 0;
+      if (qty > 12){
+        const sell = Math.floor(qty/2);
+        const price = Math.floor(r.base * sell * (0.72 + Math.random()*0.18));
+        Game.resources[r.id] -= sell; Game.money += price; gained += price;
+      }
+    });
+    if (gained) pushLog(`Sold raw materials for ${fmtMoney(gained)}`); else pushLog('No excess to sell');
+    renderResources();
+  });
+
+  el('#hireBtn').addEventListener('click', ()=>{
+    const cost = 180 + Game.staff.workers * 30;
+    if (Game.money < cost){ pushLog('Not enough money to hire'); return; }
+    Game.money -= cost; Game.staff.workers++; pushLog('Hired one worker'); renderResources();
+  });
+
+  el('#saveBtn').addEventListener('click', saveGame);
+  el('#exportBtn').addEventListener('click', exportSave);
+  el('#importBtn').addEventListener('click', importSavePrompt);
+
+  el('#cancelAllBtn').addEventListener('click', ()=> { if (!confirm('Cancel all jobs?')) return; Game.production = []; pushLog('All jobs canceled'); renderAll(); });
+  el('#speedBuyBtn').addEventListener('click', ()=> {
+    const cost = 500; if (Game.money < cost){ pushLog('Not enough cash to speed up'); return; }
+    Game.money -= cost; Game.production.forEach(j=> j.remaining = Math.max(0.5, j.remaining * 0.6)); pushLog('Speed order executed — production accelerated'); renderAll();
+  });
+
+  el('#packBtn').addEventListener('click', ()=> {
+    const sel = el('#packSelect'); const id = sel.value;
+    if (!id) return alert('Choose product');
+    if (!package10(id)) alert('Packaging failed');
+  });
+
+  el('#resetBtn').addEventListener('click', ()=> { if (confirm('Give up and reset?')) hardReset(); });
+
+  el('#tips').addEventListener('click', ()=> alert('Tip: Start by crafting ammo to build early cash. List at LOW price for quick turnover, hire workers to speed production.'));
+
+  el('#ach').addEventListener('click', ()=> alert('Achievements are hidden (design challenge). Play to discover milestones.'));
+
+  // market quick interactions are handled via renderMarketArea listing logic
+
+  // gamble via prompt (exposed)
+  window.fortressGamble = (amt, odds) => gamble(amt, odds);
+
+  // save on exit
+  window.addEventListener('beforeunload', ()=> saveGame());
+
+  /* initialization */
+  (function init(){
+    // build some initial inventory for playability
+    Game.inventory['ammo9'] = 1;
+    Game.inventory['9mm'] = 0;
+    Game.production = [];
+    // prepare UI elements
+    renderAll();
+    // fill pack select
+    renderCatalogSelects();
+    // start ticker
+    Game.lastTick = Date.now();
+    setInterval(tick, 1000);
+    pushLog('Fortress Forge active. Game-only simulation. No real-world instructions.');
+  })();
+
+  /* Expose for console tinkering */
+  window.FortressForge = { Game, saveGame, loadGame, exportSave, importSavePrompt, startJob, package10, gamble };
+})();
 </script>
 </body>
 </html>
